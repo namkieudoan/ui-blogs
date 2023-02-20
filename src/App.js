@@ -7,29 +7,52 @@ import Navbar from './Navbar/Navbar';
 import Home from './components/Home/Home';
 import Category from './components/Category/Category';
 import Favorites from './components/Favorites/Favorites';
+import Postdetail from './Postdetail';
 
 function App() {
 
   const [postList, setPostList] = useState([]);
+  const [postItem,setPostItem] = useState({});
 
-  //get Data from API
+  const [postItemID, setPostItemId] = useState("");
+  
+  //getidwhileclickpost
+  const getIDPost = (id)=>{
+    setPostItemId(id);
+  }; 
+  useEffect(()=>{
+    async function getAPost(){
+      const res = await axios.get(`http://localhost:8000/v1/post/${postItemID}` );
+      return setPostItem(res.data);
+    };
+    getAPost();
+    // getAPost().then((res)=> setPostItem(res.data)); ///
+    // getAPost().catch((err)=> console.log(err)); ///
+  },[postItemID]);
+
+  //get data from API
   useEffect(()=> { 
-    async function getData(){
+    async function getAllPost(){
       const res = await axios.get("http://localhost:8000/v1/post");
-      return res;
-    }
-    getData().then((res)=> setPostList(res.data));
-    getData().catch((err)=>console.log(err));
-  },[])
+      return setPostList(res.data);
+    };
+    
+    getAllPost();
+    // getAllPost().then((res)=> );
+    // getAllPost().catch((err)=>console.log(err));
+  },[]);
+
+
 
   return (
     <Router>
       <Navbar/>
       <div className="app">
         <Routes>
-          <Route path='/' element={<Home postList={postList}/>}/>
           <Route path='/category' element={<Category/>}/>
           <Route path='/favorites' element={<Favorites/>}/>
+          <Route path='/:id' element={<Postdetail postItem ={postItem} />}/>
+          <Route path='/' element={<Home postList={postList} getIDPost={getIDPost}/>}/>
         </Routes>
       </div>        
     </Router>
