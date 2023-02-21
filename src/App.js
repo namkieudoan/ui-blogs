@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from 'axios';
 
-import Navbar from './Navbar/Navbar';
-import Home from './components/Home/Home';
+import Navbar from './components/Category/Navbar/Navbar';
+import Home from './pages/Home/Home';
 import Category from './components/Category/Category';
-import Favorites from './components/Favorites/Favorites';
-import Postdetail from './Postdetail';
+import Favorites from './pages/Favorites/Favorites';
+import Postdetail from './components/Postdetail';
+import Defaultlayout from './admin/layout/Defoulayout';
 
 function App() {
 
@@ -49,6 +50,10 @@ function App() {
       <Navbar/>
       <div className="app">
         <Routes>
+
+          {/* admin */}
+          <Route path='/admin' element={<Defaultlayout />}/>
+
           <Route path='/category' element={<Category/>}/>
           <Route path='/favorites' element={<Favorites/>}/>
           <Route path='/:id' element={<Postdetail postItem ={postItem} />}/>

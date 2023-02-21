@@ -1,4 +1,4 @@
-import Postlist from "../Postlist/Postlist";
+import Postlist from "../../components/Postlist/Postlist";
 import "./index.css"
 
 function Home(props) {
